@@ -39,8 +39,8 @@ app.get ('/products',async (req, res) => {
     let fullCollection = await AppProducts; // para poder hacerle el slice a AppProducts creo fullCollection
     let limitCollection =fullCollection.slice (0, limit); // slice para mostrar productos con limit
 
-    res.send (await limitCollection);
-    
+    limit ? res.send (await limitCollection) : res.send (await fullCollection);
+
 })
 
 //endpoint "/products?:id"
