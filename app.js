@@ -26,14 +26,21 @@ const AppProducts = productManager.readProducts()
 
 
 const PORT = 8080;
-const server = app.listen (PORT, () => {
+app.listen (PORT, () => {
     console.log ("puerto 8080 abierto");
 })
 
 
  
-
+//endpoint "/products" - ejemplo de limit .../products/?limit=3
 app.get ('/products',async (req, res) => {
-    res.send (await AppProducts);
-    console.log (typeof AppProducts)
+
+    let limit = parseInt(req.query.limit); // para pasar el string a número
+    let fullCollection = await AppProducts; // para poder hacerle el slice a AppProducts creo fullCollection
+    let limitCollection =fullCollection.slice (0, limit); // slice para mostrar productos con limit
+
+    res.send (await limitCollection);
+    
 })
+
+//endpoint "/products?:id"
