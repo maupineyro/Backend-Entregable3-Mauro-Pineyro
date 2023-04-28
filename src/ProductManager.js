@@ -40,12 +40,12 @@ export default class ProductManager {
           setTimeout(async () => {
             try {
               let readProductsResponse = await fs.readFile(this.path, "utf-8");
-              let readProductsParsed = JSON.parse(readProductsResponse);
+              let readProductsParsed = JSON.parse(readProductsResponse, null, 2);
               resolve(readProductsParsed);
             } catch (err) {
               reject(err);
             }
-          }, 750); // Espera 0.75 seg para leer el archivo, para esperar que la escritura del fs.writefile finalice - No devuelva undefined y json unexpected end error
+          }, 2500); // Espera 2.5 seg para leer el archivo, para esperar que la escritura del fs.writefile, cree el txt y finalice el json - No devuelva undefined y json unexpected end error
         });
       };
 
@@ -125,13 +125,5 @@ export default class ProductManager {
 } //cierra la class ProductManager
 
 /////////////////////////////////////////////////////////////////////////////////
-const productManager = new ProductManager; // Instanciar const productManager //
-///////////////////////////////////////////////////////////////////////////////
 
-productManager.addProduct ("título 1","description 1", 100,"imagen 1", "abc121",25);
-productManager.addProduct ("título 2","description 2", 100,"imagen 2", "abc122",25);
-productManager.addProduct ("título 3","description 3", 100,"imagen 3", "abc123",25);
-
-
-productManager.getProducts()
 
