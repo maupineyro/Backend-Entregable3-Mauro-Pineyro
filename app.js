@@ -23,24 +23,32 @@ productManager.addProduct ("título 10","description 10", 100,"imagen 10", "abc1
 const AppProducts = productManager.readProducts()
 
 
-
-
 const PORT = 8080;
 app.listen (PORT, () => {
-    console.log ("puerto 8080 abierto");
+    console.log ("port 8080 run");
 })
 
 
- 
 //endpoint "/products" - ejemplo de limit .../products/?limit=3
 app.get ('/products',async (req, res) => {
 
-    let limit = parseInt(req.query.limit); // para pasar el string a número
+    let limit = parseInt(req.query.limit); // tomo el limit del req de navegación, parseInt para pasar el string a número
     let fullCollection = await AppProducts; // para poder hacerle el slice a AppProducts creo fullCollection
     let limitCollection =fullCollection.slice (0, limit); // slice para mostrar productos con limit
 
     limit ? res.send (await limitCollection) : res.send (await fullCollection);
-
 })
 
-//endpoint "/products?:id"
+//endpoint "/products/:id"
+app.get ('/products/:id',async (req, res) => {
+    let id = parseInt (req.params.id); //tomo el id del req de navegación.
+    res.send (await productManager.getProductById(id));
+    
+})
+
+//Comprobaciones
+
+// cargo http://localhost:8080/products  para ver el total de productos
+// cargo http://localhost:8080/products/1 para ver el product id:1
+// cargo http://localhost:8080/products/7 para ver el product id:7
+// cargo http://localhost:8080/products/?limit=3 para probar que muestra los primeros 3 productos

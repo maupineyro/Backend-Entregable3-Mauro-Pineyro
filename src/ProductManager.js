@@ -40,12 +40,12 @@ export default class ProductManager {
           setTimeout(async () => {
             try {
               let readProductsResponse = await fs.readFile(this.path, "utf-8");
-              let readProductsParsed = JSON.parse(readProductsResponse, null, 2);
+              let readProductsParsed = await JSON.parse(readProductsResponse, null, 2);
               resolve(readProductsParsed);
             } catch (err) {
               reject(err);
             }
-          }, 2500); // Espera 2.5 seg para leer el archivo, para esperar que la escritura del fs.writefile, cree el txt y finalice el json - No devuelva undefined y json unexpected end error
+          }, 2000); // Espera 2 seg para leer el archivo, para esperar que la escritura del fs.writefile, cree el txt y finalice el json - No devuelva undefined y json unexpected end error
         });
       };
 
@@ -64,8 +64,9 @@ export default class ProductManager {
         let readAsyncFindId= await this.readProducts();
         let findID = readAsyncFindId.find((product) => product.id === id);
         if (findID){
-            console.log ("producto encontrado por ID es:")
-            console.log (findID);
+           // console.log ("producto encontrado por ID es:")
+            //console.log (findID);
+            return findID;
         } else {
             console.log ("Producto no encontrado");
         }
